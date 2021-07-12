@@ -1,4 +1,8 @@
 module demo.module {
-	requires demo.module.lib;
+	//requires <module>
+	requires java.xml;
+	requires transitive demo.module.lib;
 	uses demo.service.IAccountService;
+	uses demo.service.pub1.IPublisherService1;
+	//uses demo.service.pub2.IPublisherService2; // The type demo.service.pub2.IPublisherService2 is not accessible
 }
