@@ -9,6 +9,7 @@ import java.util.ServiceLoader.Provider;
 
 import demo.model.Account;
 import demo.service.IAccountService;
+import demo.service.ICustomerService;
 import demo.service.pub1.IPublisherService1;
 import legacy.LegacyClass;
 //import demo.service.pub2.IPublisherService2; //The type demo.service.pub2.IPublisherService2 is not accessible
@@ -34,6 +35,7 @@ public class TryModule {
 		
 		tryAccessLegacyClass();
 		
+		tryServiceProviderFactory();
 		
 	}
 	
@@ -58,7 +60,7 @@ public class TryModule {
 		while (itr.hasNext()) {
 			System.out.println(itr.next());
 		}
-
+		
 		ServiceLoader.load(IAccountService.class).stream()
 		    .map(Provider::get)
 		    .forEach(System.out::println);
@@ -91,5 +93,16 @@ public class TryModule {
 	private static void tryAccessLegacyClass() {
 		System.out.println(LegacyClass.class.getName());
 		//IPublisherService2.class.getName(); // Only demo.module2 has access to this class
+	}
+	
+	
+	private static void tryServiceProviderFactory() {
+		ServiceLoader.load(ICustomerService.class).stream()
+		.map(p -> p.getClass().getCanonicalName())
+	    .forEach(System.out::println);
+		
+		ServiceLoader.load(ICustomerService.class).stream()
+	    .map(Provider::get)
+	    .forEach(System.out::println);
 	}
 }
